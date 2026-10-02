@@ -16,7 +16,7 @@ export default function Header() {
     <header className={`sticky top-0 z-50 border-b border-white/[.08] backdrop-blur-xl transition-colors ${scrolled ? 'bg-ink/95 shadow-[0_10px_32px_rgba(0,0,0,.16)]' : 'bg-ink/80'}`}>
       <div className={`mx-auto flex max-w-7xl items-center justify-between px-4 transition-[height] duration-300 sm:px-6 lg:px-8 ${scrolled ? 'h-14' : 'h-[68px] sm:h-[76px]'}`}>
         <button className={`${icon} -ml-2 lg:hidden`} aria-label={menu ? 'Fechar menu' : 'Abrir menu'} aria-expanded={menu} onClick={() => setMenu(!menu)}>{menu ? <X /> : <Menu />}</button>
-        <a href="#" className="shrink-0 font-display text-[1.2rem] font-semibold tracking-[-.025em] sm:text-[1.35rem]">Tenor<span className="text-gold"> Music</span></a>
+        <a href="/" className="shrink-0 font-display text-[1.2rem] font-semibold tracking-[-.025em] sm:text-[1.35rem]">Tenor<span className="text-gold"> Music</span></a>
         <nav aria-label="Navegação principal" className="hidden items-center gap-5 text-[13px] xl:gap-7 xl:text-sm lg:flex">
           {nav.map(([label, href]) => <a key={label} href={href} className="relative py-2 text-bone/75 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-gold after:transition-transform hover:text-bone hover:after:scale-x-100">{label}</a>)}
         </nav>

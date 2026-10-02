@@ -8,8 +8,8 @@ export const store = {
 }
 export const url = (p) => store.url + p
 export const nav = [
-  ['Instrumentos', '#categorias'], ['Acessórios', url('/acessorios')], ['Ofertas', '#ofertas'],
-  ['Novidades', '#destaques'], ['Seminovos', '#novos-seminovos'],
+  ['Instrumentos', '/instrumentos'], ['Acessórios', '/instrumentos?categoria=outros'], ['Ofertas', '/#ofertas'],
+  ['Novidades', '/#destaques'], ['Seminovos', '/#novos-seminovos'],
 ]
 export const institutional = [
   ['Empresa', '/empresa'], ['Como comprar', '/como-comprar'], ['Segurança', '/seguranca'],

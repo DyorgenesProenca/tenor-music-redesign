@@ -17,7 +17,7 @@ export function Button({ variant = 'primary', className = '', ...props }) {
 
 const badges = {
   oferta: 'bg-gold text-ink', novo: 'border border-gold/70 bg-ink/70 text-gold',
-  seminovo: 'border border-bone/40 bg-ink/70 text-bone', esgotado: 'bg-bone/15 text-bone/70',
+  seminovo: 'border border-bone/40 bg-ink/70 text-bone', usado: 'border border-bone/40 bg-ink/70 text-bone', esgotado: 'bg-bone/15 text-bone/70',
 }
 export const Badge = ({ kind }) => (
   <span className={`rounded-full px-2.5 py-1 text-[9px] font-bold uppercase tracking-[.14em] backdrop-blur ${badges[kind]}`}>{kind}</span>
