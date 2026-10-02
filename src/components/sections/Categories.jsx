@@ -1,7 +1,8 @@
 import { Reveal, SectionTitle } from '../ui'
 import CategoryCard from '../cards/CategoryCard.jsx'
-import { categories } from '../../data/categories.js'
+import { useCatalogData } from '../../contexts/CatalogDataContext.jsx'
 export default function Categories() {
+  const { homepageCategories: categories } = useCatalogData()
   return (
     <section id="categorias" className="mx-auto max-w-7xl scroll-mt-24 px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
       <Reveal>

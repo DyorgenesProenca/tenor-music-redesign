@@ -1,8 +1,9 @@
 import { Reveal, SectionTitle } from '../ui'
 import ProductCard from '../cards/ProductCard.jsx'
-import { products } from '../../data/products.js'
+import { useCatalogData } from '../../contexts/CatalogDataContext.jsx'
 export default function WeeklyOffers() {
-  const items = products.filter((p) => p.badge === 'oferta' && p.status !== 'esgotado' && Number(p.price) > 0)
+  const { products } = useCatalogData()
+  const items = products.filter((p) => p.offer && p.available && p.stock !== 0 && Number(p.price) > 0)
   if (!items.length) return null
 
   return (

@@ -5,22 +5,28 @@ import Footer from './components/layout/Footer.jsx'
 import Home from './pages/Home.jsx'
 import InstrumentCatalog from './pages/InstrumentCatalog.jsx'
 import ProductPage from './pages/ProductPage.jsx'
+import AdminApp from './pages/AdminApp.jsx'
+import { CatalogDataProvider } from './contexts/CatalogDataContext.jsx'
 
 function CurrentPage() {
   const pathname = window.location.pathname.replace(/\/+$/, '') || '/'
 
-  if (pathname === '/instrumentos') return <InstrumentCatalog />
+  if (pathname === '/admin' || pathname.startsWith('/admin/')) return <AdminApp />
+
+  let page
+  if (pathname === '/instrumentos') page = <InstrumentCatalog />
 
   const productRoute = pathname.match(/^\/produto\/([^/]+)$/)
   if (productRoute) {
     let productId = productRoute[1]
     try { productId = decodeURIComponent(productId) } catch { /* ID inválido será tratado como não encontrado. */ }
-    return <ProductPage productId={productId} />
+    page = <ProductPage productId={productId} />
   }
 
-  return <Home />
+  if (!page) page = <Home />
+  return <><TopBar /><Header />{page}<Footer /></>
 }
 
 export default function App() {
-  return (<CartProvider><TopBar /><Header /><CurrentPage /><Footer /></CartProvider>)
+  return <CartProvider><CatalogDataProvider><CurrentPage /></CatalogDataProvider></CartProvider>
 }

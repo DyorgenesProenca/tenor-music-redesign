@@ -1,9 +1,11 @@
 import { ArrowDown, ArrowUpRight, ShieldCheck, Truck } from 'lucide-react'
 import { Button } from '../ui'
 import { store } from '../../data/site.js'
+import { useCatalogData } from '../../contexts/CatalogDataContext.jsx'
 import InstrumentArtwork from '../ui/InstrumentArtwork.jsx'
 
 export default function Hero() {
+  const { settings } = useCatalogData()
   return (
     <section className="relative isolate overflow-hidden border-b border-white/[.06]">
       <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_82%_44%,rgba(255,184,0,.14),transparent_42%),radial-gradient(ellipse_at_15%_95%,rgba(255,255,255,.035),transparent_40%)]" />
@@ -17,7 +19,7 @@ export default function Hero() {
           <p className="mt-6 max-w-lg text-base leading-7 text-bone/70 sm:mt-7 sm:text-lg sm:leading-8">Instrumentos musicais para acompanhar sua paixão, seus estudos e cada nova apresentação.</p>
           <div className="mt-8 flex flex-col gap-3 sm:mt-9 sm:flex-row sm:flex-wrap">
             <Button href="#categorias" className="w-full sm:w-auto">Explorar instrumentos<ArrowDown size={16} /></Button>
-            <Button href={store.whatsapp} target="_blank" rel="noreferrer" variant="ghost" className="w-full sm:w-auto">Falar com um especialista<ArrowUpRight size={15} /></Button>
+            <Button href={settings.whatsappUrl || store.whatsapp} target="_blank" rel="noreferrer" variant="ghost" className="w-full sm:w-auto">Falar com um especialista<ArrowUpRight size={15} /></Button>
           </div>
           <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 border-t border-white/10 pt-5 text-[11px] font-medium text-bone/65 sm:mt-10 sm:pt-6 sm:text-xs">
             <span className="inline-flex items-center gap-2"><ShieldCheck size={15} className="text-gold" />Compra segura</span>

@@ -64,9 +64,16 @@ const instrumentArt = {
   ),
 }
 
+const artworkKind = {
+  clarinetes: 'madeiras',
+  flautas: 'madeiras',
+  violoes: 'cordas',
+  outros: 'acessorios',
+}
+
 export default function InstrumentArtwork({ kind, photo, alt = '', className = '' }) {
   const [failed, setFailed] = useState(false)
-  const art = instrumentArt[kind] || instrumentArt.saxofones
+  const art = instrumentArt[artworkKind[kind] || kind] || instrumentArt.saxofones
 
   return (
     <div className={`instrument-art relative isolate overflow-hidden ${className}`}>

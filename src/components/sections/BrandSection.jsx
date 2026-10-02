@@ -1,6 +1,7 @@
 import { Reveal, SectionTitle } from '../ui'
-import { brands } from '../../data/brands.js'
+import { useCatalogData } from '../../contexts/CatalogDataContext.jsx'
 export default function BrandSection() {
+  const { brands } = useCatalogData()
   return (
     <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
       <Reveal>

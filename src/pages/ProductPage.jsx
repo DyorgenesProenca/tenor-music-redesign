@@ -2,22 +2,21 @@ import { useState } from 'react'
 import { ArrowLeft, Image, MessageCircle, PackageCheck, ShoppingBag } from 'lucide-react'
 import { Badge, Button } from '../components/ui'
 import InstrumentArtwork from '../components/ui/InstrumentArtwork.jsx'
-import { catalogCategories } from '../data/categories.js'
-import { products } from '../data/products.js'
 import { store } from '../data/site.js'
 import { useCart } from '../hooks/useCart.jsx'
+import { useCatalogData } from '../contexts/CatalogDataContext.jsx'
 import { brl } from '../lib/format.js'
 
 const conditionName = (condition) => ({ novo: 'Novo', seminovo: 'Seminovo', usado: 'Usado' })[condition] || condition
 
 function ProductGallery({ product }) {
-  const images = [product.image, ...(product.gallery || [])].filter(Boolean)
+  const images = [product.image, ...(product.images || [])].filter(Boolean)
   const [active, setActive] = useState(0)
 
   return (
     <div>
       <div className="relative aspect-square overflow-hidden rounded-2xl border border-white/10 bg-graphite sm:rounded-3xl">
-        <InstrumentArtwork kind={product.cat || product.category} photo={images[active]} alt={product.name} className="absolute inset-0" />
+        <InstrumentArtwork kind={product.category} photo={images[active]} alt={product.name} className="absolute inset-0" />
         {images.length > 1 && <span className="absolute bottom-4 right-4 rounded-full border border-white/15 bg-ink/65 px-3 py-1.5 text-xs text-bone/70 backdrop-blur">{active + 1} / {images.length}</span>}
       </div>
       {images.length > 1 ? (
@@ -42,6 +41,7 @@ function SpecificationList({ specifications }) {
 }
 
 export default function ProductPage({ productId }) {
+  const { products, catalogCategories, settings } = useCatalogData()
   const product = products.find((item) => item.id === productId)
   const { add } = useCart()
 
@@ -58,7 +58,7 @@ export default function ProductPage({ productId }) {
   }
 
   const categoryName = catalogCategories.find((category) => category.key === product.category)?.name || 'Instrumentos'
-  const isUnavailable = product.availability === 'esgotado' || product.stock === 0
+  const isUnavailable = !product.available || product.stock === 0
   const availabilityText = isUnavailable
     ? 'Esgotado no momento'
     : product.stock > 0
@@ -81,7 +81,7 @@ export default function ProductPage({ productId }) {
         <section aria-labelledby="product-title" className="lg:sticky lg:top-24">
           <div className="flex flex-wrap items-center gap-2">
             <Badge kind={product.condition} />
-            {product.highlight && <Badge kind="oferta" />}
+            {product.offer && <Badge kind="oferta" />}
             <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[9px] font-bold uppercase tracking-[.12em] ${isUnavailable ? 'border-white/10 text-bone/45' : 'border-gold/20 text-gold/85'}`}><span className={`h-1.5 w-1.5 rounded-full ${isUnavailable ? 'bg-bone/35' : 'bg-gold'}`} />{availabilityLabel}</span>
           </div>
           <p className="mt-5 text-xs font-bold uppercase tracking-[.18em] text-gold/80">{product.brand}{product.model ? <span className="text-bone/40"> · {product.model}</span> : null}</p>
@@ -92,7 +92,7 @@ export default function ProductPage({ productId }) {
             <div className="flex items-center gap-2 text-sm text-bone/65"><PackageCheck size={17} className="text-gold" />{availabilityText}</div>
             {product.price ? (
               <div className="mt-5">
-                {product.oldPrice > product.price && <p className="text-sm text-bone/45 line-through">{brl(product.oldPrice)}</p>}
+                {product.previousPrice > product.price && <p className="text-sm text-bone/45 line-through">{brl(product.previousPrice)}</p>}
                 <p className="mt-0.5 text-3xl font-bold tracking-[-.035em] sm:text-4xl">{brl(product.price)}</p>
                 {product.installments?.amount && <p className="mt-2 text-sm text-bone/55">Em {product.installments.count}x de {brl(product.installments.amount)}{product.installments.hasInterest ? ' com juros' : ' sem juros'}</p>}
               </div>
@@ -104,9 +104,9 @@ export default function ProductPage({ productId }) {
               ) : product.price ? (
                 <button type="button" onClick={() => add(product)} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-gold px-5 text-sm font-bold text-ink transition-colors hover:bg-gold-deep focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"><ShoppingBag size={17} />Adicionar ao carrinho</button>
               ) : (
-                <Button href={store.whatsapp} target="_blank" rel="noreferrer"><MessageCircle size={17} />Consultar preço</Button>
+                <Button href={settings.whatsappUrl || store.whatsapp} target="_blank" rel="noreferrer"><MessageCircle size={17} />Consultar preço</Button>
               )}
-              <Button href={store.whatsapp} target="_blank" rel="noreferrer" variant="ghost"><MessageCircle size={17} />Falar pelo WhatsApp</Button>
+              <Button href={settings.whatsappUrl || store.whatsapp} target="_blank" rel="noreferrer" variant="ghost"><MessageCircle size={17} />Falar pelo WhatsApp</Button>
             </div>
             <p className="mt-4 text-[11px] leading-5 text-bone/40">Preço e disponibilidade sujeitos à confirmação da equipe.</p>
           </div>

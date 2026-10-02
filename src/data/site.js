@@ -6,6 +6,10 @@ export const store = {
   address: 'Rua Guaritá, 354 – Fazenda Rio Grande, PR',
   hours: ['Segunda a sexta, 9h às 18h', 'Sábado, 8h às 17h'],
 }
+export const storeSettings = {
+  whatsappUrl: store.whatsapp,
+  contactEmail: store.email,
+}
 export const url = (p) => store.url + p
 export const nav = [
   ['Instrumentos', '/instrumentos'], ['Acessórios', '/instrumentos?categoria=outros'], ['Ofertas', '/#ofertas'],

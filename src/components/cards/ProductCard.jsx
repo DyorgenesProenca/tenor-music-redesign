@@ -1,23 +1,25 @@
 import { ArrowUpRight, ShoppingBag } from 'lucide-react'
 import { Badge, Button } from '../ui'
 import InstrumentArtwork from '../ui/InstrumentArtwork.jsx'
-import { categories } from '../../data/categories.js'
-import { brands } from '../../data/brands.js'
+import { useCatalogData } from '../../contexts/CatalogDataContext.jsx'
 import { useCart } from '../../hooks/useCart.jsx'
 import { brl } from '../../lib/format.js'
 
 export default function ProductCard({ p, className = 'w-64 shrink-0 snap-start lg:w-auto', catalog = false }) {
   const { add } = useCart()
-  const cat = categories.find((c) => c.key === p.cat)
-  const brand = p.brand || brands.find((name) => p.name.toLowerCase().includes(name.toLowerCase()))
-  const out = p.availability === 'esgotado' || p.status === 'esgotado'
+  const { homepageCategories, catalogCategories } = useCatalogData()
+  const legacyCategory = p.category === 'outros' && /bombardino/i.test(p.name) ? 'tubas' : p.category
+  const cat = [...homepageCategories, ...catalogCategories].find((c) => c.key === legacyCategory)
+  const artworkKind = legacyCategory
+  const brand = p.brand
+  const out = !p.available || p.stock === 0
   return (
     <article className={`group flex h-full flex-col overflow-hidden rounded-2xl bg-graphite/90 ring-1 ring-white/10 transition duration-300 hover:-translate-y-1 hover:ring-gold/40 ${className}`}>
       <div className="relative aspect-[1.08] overflow-hidden bg-[#171719]">
-        <InstrumentArtwork kind={p.cat} photo={p.image} alt={p.name} className="absolute inset-0 transition-transform duration-700 group-hover:scale-[1.035]" />
+        <InstrumentArtwork kind={artworkKind} photo={p.image} alt={p.name} className="absolute inset-0 transition-transform duration-700 group-hover:scale-[1.035]" />
         <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
-          {p.badge && <Badge kind={p.badge} />}
-          <Badge kind={out ? 'esgotado' : p.condition} />
+          {p.offer && <Badge kind="oferta" />}
+          {out ? <Badge kind="esgotado" /> : <Badge kind={p.condition} />}
         </div>
       </div>
       <div className="flex flex-1 flex-col p-4 sm:p-5">
@@ -27,11 +29,11 @@ export default function ProductCard({ p, className = 'w-64 shrink-0 snap-start l
         <div className="mt-4 border-t border-white/8 pt-3.5">
           {p.price ? (
             <>
-              {catalog && p.oldPrice > p.price && <p className="mb-0.5 text-xs text-bone/45 line-through">{brl(p.oldPrice)}</p>}
+              {p.previousPrice > p.price && <p className="mb-0.5 text-xs text-bone/45 line-through">{brl(p.previousPrice)}</p>}
               <p className="text-2xl font-bold tracking-[-.03em] text-bone">{brl(p.price)}</p>
               {p.installments?.amount
                 ? <p className="mt-1 text-[11px] text-bone/55">{p.installments.count}x de {brl(p.installments.amount)}{p.installments.hasInterest ? ' com juros' : ' sem juros'}</p>
-                : p.inst && <p className="mt-1 text-[11px] text-bone/55">12x de {brl(p.inst)} com juros</p>}
+                : null}
             </>
           ) : <p className="min-h-12 pt-1 text-sm text-bone/60">{out ? 'Indisponível no momento' : 'Consulte o valor'}</p>}
         </div>

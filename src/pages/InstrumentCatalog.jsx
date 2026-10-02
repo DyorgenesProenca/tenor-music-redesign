@@ -1,10 +1,9 @@
 import { useMemo, useState } from 'react'
 import { Search, X } from 'lucide-react'
 import ProductCard from '../components/cards/ProductCard.jsx'
-import { catalogCategories } from '../data/categories.js'
-import { products } from '../data/products.js'
+import { useCatalogData } from '../contexts/CatalogDataContext.jsx'
 
-const initialCategory = () => {
+const initialCategory = (catalogCategories) => {
   const value = new URLSearchParams(window.location.search).get('categoria')
   return catalogCategories.some((category) => category.key === value) || value === 'madeiras' ? value : ''
 }
@@ -12,7 +11,8 @@ const initialCategory = () => {
 const selectClass = 'h-12 min-w-0 rounded-xl border border-white/10 bg-graphite px-3 text-sm text-bone outline-none transition focus:border-gold/45 focus:ring-2 focus:ring-gold/15'
 
 export default function InstrumentCatalog() {
-  const [category, setCategory] = useState(initialCategory)
+  const { products, catalogCategories } = useCatalogData()
+  const [category, setCategory] = useState(() => initialCategory(catalogCategories))
   const [condition, setCondition] = useState('')
   const [availability, setAvailability] = useState('')
   const [sort, setSort] = useState('featured')
@@ -22,10 +22,11 @@ export default function InstrumentCatalog() {
     const term = search.trim().toLocaleLowerCase('pt-BR')
     const filtered = products.filter((product) => {
       const matchesCategory = !category || (category === 'madeiras'
-        ? product.cat === 'madeiras'
+        ? ['flautas', 'clarinetes'].includes(product.category)
         : product.category === category)
       const matchesCondition = !condition || product.condition === condition
-      const matchesAvailability = !availability || product.availability === availability
+      const productAvailability = !product.available || product.stock === 0 ? 'esgotado' : product.stock == null ? 'sob-consulta' : 'disponivel'
+      const matchesAvailability = !availability || productAvailability === availability
       const searchableText = [product.name, product.brand, product.model].filter(Boolean).join(' ').toLocaleLowerCase('pt-BR')
       return matchesCategory && matchesCondition && matchesAvailability && (!term || searchableText.includes(term))
     })
@@ -39,7 +40,7 @@ export default function InstrumentCatalog() {
       if (sort === 'name') return a.name.localeCompare(b.name, 'pt-BR')
       return Number(b.highlight) - Number(a.highlight) || products.indexOf(a) - products.indexOf(b)
     })
-  }, [category, condition, availability, search, sort])
+  }, [products, category, catalogCategories, condition, availability, search, sort])
 
   const updateCategory = (value) => {
     setCategory(value)
