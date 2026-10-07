@@ -16,7 +16,7 @@ function ProductGallery({ product }) {
   return (
     <div>
       <div className="relative aspect-square overflow-hidden rounded-2xl border border-white/10 bg-graphite sm:rounded-3xl">
-        <InstrumentArtwork kind={product.category} photo={images[active]} alt={product.name} className="absolute inset-0" />
+        <InstrumentArtwork kind={product.category} photo={images[active]} alt={product.name} genericFallback className="absolute inset-0" />
         {images.length > 1 && <span className="absolute bottom-4 right-4 rounded-full border border-white/15 bg-ink/65 px-3 py-1.5 text-xs text-bone/70 backdrop-blur">{active + 1} / {images.length}</span>}
       </div>
       {images.length > 1 ? (

@@ -1,6 +1,8 @@
 // Catálogo local de contingência e fonte da carga inicial do Supabase.
 // Estoque null significa que a quantidade ainda precisa ser confirmada pela loja.
 const product = (fields) => ({
+  model: '',
+  price: null,
   previousPrice: null,
   image: null,
   images: [],

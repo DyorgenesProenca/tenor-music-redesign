@@ -16,7 +16,7 @@ export default function ProductCard({ p, className = 'w-64 shrink-0 snap-start l
   return (
     <article className={`group flex h-full flex-col overflow-hidden rounded-2xl bg-graphite/90 ring-1 ring-white/10 transition duration-300 hover:-translate-y-1 hover:ring-gold/40 ${className}`}>
       <div className="relative aspect-[1.08] overflow-hidden bg-[#171719]">
-        <InstrumentArtwork kind={artworkKind} photo={p.image} alt={p.name} className="absolute inset-0 transition-transform duration-700 group-hover:scale-[1.035]" />
+        <InstrumentArtwork kind={artworkKind} photo={p.image} alt={p.name} genericFallback className="absolute inset-0 transition-transform duration-700 group-hover:scale-[1.035]" />
         <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
           {p.offer && <Badge kind="oferta" />}
           {out ? <Badge kind="esgotado" /> : <Badge kind={p.condition} />}

@@ -1,5 +1,8 @@
 import { products as fallbackProducts } from '../data/products.js'
+import { toProductRow } from '../data/productSchema.js'
 import { databaseRequest, supabaseConfigured } from '../lib/supabaseClient.js'
+
+export { toProductRow }
 
 export function fromProductRow(row) {
   return {
@@ -23,29 +26,6 @@ export function fromProductRow(row) {
     available: Boolean(row.available),
     createdAt: row.created_at || null,
     updatedAt: row.updated_at || null,
-  }
-}
-
-export function toProductRow(product) {
-  return {
-    id: product.id,
-    name: product.name.trim(),
-    brand: product.brand.trim(),
-    model: product.model?.trim() || '',
-    category: product.category,
-    sort_order: Number(product.sortOrder) || 0,
-    image: product.image || null,
-    images: product.images || [],
-    price: product.price == null || product.price === '' ? null : Number(product.price),
-    previous_price: product.previousPrice == null || product.previousPrice === '' ? null : Number(product.previousPrice),
-    condition: product.condition,
-    description: product.description || '',
-    specifications: product.specifications || [],
-    stock: product.stock == null || product.stock === '' ? null : Number(product.stock),
-    installments: product.installments || null,
-    highlight: Boolean(product.highlight),
-    offer: Boolean(product.offer),
-    available: Boolean(product.available),
   }
 }
 

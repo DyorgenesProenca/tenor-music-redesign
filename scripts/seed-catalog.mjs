@@ -1,4 +1,5 @@
 import { products } from '../src/data/products.js'
+import { toProductRow } from '../src/data/productSchema.js'
 import { categoryRegistry } from '../src/data/categories.js'
 import { brands } from '../src/data/brands.js'
 
@@ -39,28 +40,23 @@ const categoryRows = categoryRegistry.map((category) => ({
   homepage_visible: category.homepageVisible,
 }))
 const brandRows = brands.map((name, index) => ({ name, sort_order: (index + 1) * 10, active: true }))
-const productRows = products.map((product) => ({
-  id: product.id,
-  name: product.name,
-  brand: product.brand,
-  model: product.model,
-  category: product.category,
-  sort_order: product.sortOrder,
-  image: product.image,
-  images: product.images,
-  price: product.price,
-  previous_price: product.previousPrice,
-  condition: product.condition,
-  description: product.description,
-  specifications: product.specifications,
-  stock: product.stock,
-  installments: product.installments,
-  highlight: product.highlight,
-  offer: product.offer,
-  available: product.available,
-}))
+const productRows = products.map(toProductRow)
+
+function assertUniformPayload(table, rows) {
+  if (rows.length < 2) return
+  const keysOf = (row) => Object.keys(JSON.parse(JSON.stringify(row))).sort().join('\u0000')
+  const expectedKeys = keysOf(rows[0])
+  const mismatch = rows.find((row) => keysOf(row) !== expectedKeys)
+  if (mismatch) {
+    const recordId = mismatch.id ?? mismatch.slug ?? mismatch.name ?? '(sem identificador)'
+    throw new Error(`Payload de ${table} tem chaves diferentes no registro ${recordId}.`)
+  }
+}
 
 try {
+  assertUniformPayload('categories', categoryRows)
+  assertUniformPayload('brands', brandRows)
+  assertUniformPayload('products', productRows)
   await upsert('categories', categoryRows, 'slug')
   await upsert('brands', brandRows, 'name')
   await upsert('products', productRows, 'id')

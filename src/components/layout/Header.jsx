@@ -4,7 +4,7 @@ import { nav, url } from '../../data/site.js'
 import { useCart } from '../../hooks/useCart.jsx'
 
 export default function Header() {
-  const [menu, setMenu] = useState(false), [search, setSearch] = useState(false), [scrolled, setScrolled] = useState(false)
+  const [menu, setMenu] = useState(false), [search, setSearch] = useState(false), [searchTerm, setSearchTerm] = useState(() => new URLSearchParams(window.location.search).get('q') || ''), [scrolled, setScrolled] = useState(false)
   const { count } = useCart()
   useEffect(() => {
     const f = () => setScrolled(window.scrollY > 40)
@@ -30,8 +30,12 @@ export default function Header() {
         </div>
       </div>
       {search && (
-        <form id="site-search" onSubmit={(e) => e.preventDefault()} className="border-t border-white/[.08] bg-ink/95 px-4 py-3 sm:px-6">
-          <input autoFocus type="search" placeholder="Busque por instrumento, marca ou modelo" className="mx-auto block h-11 w-full max-w-2xl rounded-full border border-white/10 bg-graphite px-5 text-sm text-bone placeholder:text-bone/40 outline-none transition focus:border-gold/45 focus:ring-2 focus:ring-gold/20" />
+        <form id="site-search" action="/instrumentos" method="get" className="border-t border-white/[.08] bg-ink/95 px-4 py-3 sm:px-6">
+          <div className="mx-auto flex h-11 w-full max-w-2xl overflow-hidden rounded-full border border-white/10 bg-graphite transition focus-within:border-gold/45 focus-within:ring-2 focus-within:ring-gold/20">
+            <label className="sr-only" htmlFor="site-search-input">Buscar instrumentos no catálogo</label>
+            <input id="site-search-input" name="q" autoFocus type="search" value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)} placeholder="Busque por instrumento, marca ou modelo" className="min-w-0 flex-1 bg-transparent px-5 text-sm text-bone placeholder:text-bone/40 outline-none" />
+            <button type="submit" aria-label="Pesquisar no catálogo" className="grid w-12 shrink-0 place-items-center text-bone/70 transition-colors hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-inset focus-visible:outline-gold"><Search size={18} /></button>
+          </div>
         </form>
       )}
       {menu && (
