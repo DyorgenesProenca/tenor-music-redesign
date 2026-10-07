@@ -2,7 +2,6 @@ import { ArrowDown, ArrowUpRight, ShieldCheck, Truck } from 'lucide-react'
 import { Button } from '../ui'
 import { store } from '../../data/site.js'
 import { useCatalogData } from '../../contexts/CatalogDataContext.jsx'
-import InstrumentArtwork from '../ui/InstrumentArtwork.jsx'
 
 export default function Hero() {
   const { settings } = useCatalogData()
@@ -30,8 +29,9 @@ export default function Hero() {
         <div className="relative mx-auto w-full max-w-[35rem] lg:max-w-none">
           <div aria-hidden="true" className="absolute -inset-2 rounded-[2rem] border border-white/[.06] sm:-inset-4 sm:rounded-[2.5rem]" />
           <div className="relative aspect-[.96] overflow-hidden rounded-[1.65rem] border border-white/10 bg-graphite shadow-[0_36px_90px_rgba(0,0,0,.42)] sm:rounded-[2rem]">
-            {/* Passe uma foto em `photo` quando a Tenor Music fornecer o material oficial. */}
-            <InstrumentArtwork className="absolute inset-0 scale-[1.04]" />
+            <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_at_52%_38%,rgba(255,184,0,.19),transparent_54%),linear-gradient(145deg,#27241c_0%,#171719_53%,#0d0d0f_100%)]" />
+            <div aria-hidden="true" className="absolute inset-x-[12%] bottom-[14%] h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
+            <img src="/tenor-music-logo.png" alt="Logo Tenor Music" className="absolute inset-0 m-auto h-[72%] w-[72%] rounded-2xl bg-white p-1 object-contain shadow-[0_24px_60px_rgba(0,0,0,.4)]" />
             <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-ink/50" />
             <div className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-ink/50 px-3 py-2 text-[9px] font-bold uppercase tracking-[.18em] text-bone/75 backdrop-blur sm:left-6 sm:top-6 sm:px-4 sm:text-[10px]">
               <span className="h-1.5 w-1.5 rounded-full bg-gold" />Universo Tenor Music
@@ -41,10 +41,9 @@ export default function Hero() {
                 <p className="text-[9px] font-bold uppercase tracking-[.2em] text-gold">Encontre sua voz</p>
                 <p className="mt-1.5 font-display text-lg leading-tight sm:text-2xl">Um instrumento para cada caminho musical.</p>
               </div>
-              <span aria-hidden="true" className="mb-1 hidden h-11 w-11 shrink-0 place-items-center rounded-full border border-white/20 bg-ink/45 text-bone sm:grid"><ArrowUpRight size={18} /></span>
+              <a href="#sobre-a-loja" aria-label="Saiba mais sobre a loja Tenor Music" title="Sobre a loja" className="mb-1 grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/20 bg-ink/45 text-bone transition hover:border-gold/60 hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold sm:h-11 sm:w-11"><ArrowUpRight size={18} /></a>
             </div>
           </div>
-          <span aria-hidden="true" className="absolute -right-2 top-[20%] hidden h-16 w-16 rounded-full border border-gold/25 bg-gold/[.06] shadow-[0_0_60px_rgba(255,184,0,.12)] sm:block" />
         </div>
       </div>
     </section>
