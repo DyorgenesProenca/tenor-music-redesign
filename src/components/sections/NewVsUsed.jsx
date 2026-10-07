@@ -1,7 +1,6 @@
 import { ArrowUpRight } from 'lucide-react'
 import { Button, Reveal } from '../ui'
 import InstrumentArtwork from '../ui/InstrumentArtwork.jsx'
-import { store } from '../../data/site.js'
 
 export default function NewVsUsed() {
   return (
@@ -15,7 +14,7 @@ export default function NewVsUsed() {
           <p className="text-[10px] font-bold uppercase tracking-[.22em] text-gold">01 / Novos</p>
           <h2 className="mt-3 font-display text-3xl tracking-[-.025em] sm:text-4xl">O próximo instrumento da sua jornada</h2>
           <p className="mt-3 max-w-md text-sm leading-6 text-bone/65">Explore instrumentos novos de marcas reconhecidas por músicos e escolas.</p>
-          <Button href={store.url} target="_blank" rel="noreferrer" className="mt-7">Ver instrumentos novos<ArrowUpRight size={16} /></Button>
+          <Button href="/instrumentos?condicao=novo" className="mt-7">Ver instrumentos novos<ArrowUpRight size={16} /></Button>
         </div>
       </Reveal>
       <Reveal className="group overflow-hidden rounded-2xl border border-gold/25 bg-bone text-ink">
@@ -28,7 +27,7 @@ export default function NewVsUsed() {
           <p className="text-[10px] font-bold uppercase tracking-[.22em] text-[#89620f]">02 / Seminovos</p>
           <h2 className="mt-3 font-display text-3xl tracking-[-.025em] sm:text-4xl">Mais música para novas histórias</h2>
           <p className="mt-3 max-w-md text-sm leading-6 text-ink/70">Encontre instrumentos seminovos e descubra outras possibilidades para tocar.</p>
-          <Button href={store.url} target="_blank" rel="noreferrer" variant="dark" className="mt-7">Explorar seminovos<ArrowUpRight size={16} /></Button>
+          <Button href="/instrumentos?condicao=seminovo" variant="dark" className="mt-7">Explorar seminovos<ArrowUpRight size={16} /></Button>
         </div>
       </Reveal>
     </section>
