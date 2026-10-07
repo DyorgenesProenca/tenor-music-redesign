@@ -31,7 +31,7 @@ export default function Hero() {
           <div aria-hidden="true" className="absolute -inset-2 rounded-[2rem] border border-white/[.06] sm:-inset-4 sm:rounded-[2.5rem]" />
           <div className="relative aspect-[.96] overflow-hidden rounded-[1.65rem] border border-white/10 bg-graphite shadow-[0_36px_90px_rgba(0,0,0,.42)] sm:rounded-[2rem]">
             {/* Passe uma foto em `photo` quando a Tenor Music fornecer o material oficial. */}
-            <InstrumentArtwork kind="saxofones" className="absolute inset-0 scale-[1.04]" />
+            <InstrumentArtwork className="absolute inset-0 scale-[1.04]" />
             <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-ink/50" />
             <div className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-ink/50 px-3 py-2 text-[9px] font-bold uppercase tracking-[.18em] text-bone/75 backdrop-blur sm:left-6 sm:top-6 sm:px-4 sm:text-[10px]">
               <span className="h-1.5 w-1.5 rounded-full bg-gold" />Universo Tenor Music
